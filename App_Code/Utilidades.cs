@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 public class Utilidades
 {
@@ -63,5 +64,53 @@ public class Utilidades
             }
         }
         return functionReturnValue;
+    }
+
+    /**
+     * @param name="lst" DropDownList de referencia  
+     * @param name="cn" Conexion a la Base de Datos
+     * @param name="sSelectSQL" Sentencia SQL
+     * @param name="sErr" Mensaje de error en caso de existir
+     * @param name="bIndex0" False en caso de no querer el valor Vacio (indice 0)
+     **/
+    public static void CargarListado(ref DropDownList lst, string sSelectSQL, SqlConnection cn, ref string sErr, bool bIndex0 = false)
+    {
+        string sRes = "";
+        lst.Items.Clear();
+        SqlCommand cmd = new SqlCommand(sSelectSQL, cn);
+        SqlDataReader reader;
+        try
+        {
+            cn.Open();
+            reader = cmd.ExecuteReader();
+            Int16 i = 0;
+            if (bIndex0)
+            {
+                lst.Items.Add(new ListItem("Seleccione un Valor", ""));
+                i += 1;
+            }
+            while (reader.Read())
+            {
+                ListItem newItem = new ListItem();
+                newItem.Text = reader["TXT"].ToString();
+                newItem.Value = reader["VAL"].ToString();
+                lst.Items.Add(newItem);
+            }
+            reader.Close();
+            if (lst.Items.Count == 1) { lst.Enabled = false; } else { lst.Enabled = true; }
+        }
+        catch (SqlException Sqlex)
+        {
+            sRes = "Error de SQL cargando el Listado " + lst.ID + ", detalle: " + Sqlex.Message;
+        }
+        catch (Exception err)
+        {
+            sRes = "Error cargando el Listado " + lst.ID + ", detalle: " + err.Message;
+        }
+        finally
+        {
+            cn.Close();
+        }
+        sErr += sRes;
     }
 }

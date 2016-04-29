@@ -1,13 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RolSistema.aspx.cs" Inherits="source_RolSistema" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="UsuarioRol.aspx.cs" Inherits="source_UsuarioRol" %>
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <link rel="stylesheet" href="../Content/bootstrap.css" />
     <link rel="stylesheet" href="../Content/bootstrap-theme.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Rol Sistema</title>
+    <title>Usuario - Rol</title>
 </head>
 <body>
     <div class="pager">
@@ -15,31 +13,38 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
         <asp:UpdatePanel ID="upRolSistema" runat="server">
             <ContentTemplate>
-                <div class="row"><h1 class="text-info text-center">Rol de Sistema</h1></div>
+                <div class="row"><h1 class="text-info text-center">Usuario - Rol</h1></div>
                 <div class="row">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">
-                        <asp:Button Text="Agregar Rol de Sistema" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
+                        <asp:Button Text="Agregar Usuario-Rol" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
                     </div>
                 </div>
                 <br />
                 <asp:GridView ID="GridView1" CssClass="footable" 
                               runat="server" Width="90%" HorizontalAlign="Center"
                               OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false" AllowPaging="true"
-                              DataKeyNames="id_rol_sistema"  PageSize="20"
+                              DataKeyNames="id_usuario"  PageSize="20"
                               onpageindexchanging="GridView1_PageIndexChanging"
-                              EmptyDataText="No existen Registros agregados" >
+                              EmptyDataText="No existen Usuarios Agregados" >
                     <Columns>
                         <asp:TemplateField HeaderText="ID">
                             <ItemTemplate>
-                                <asp:Label ID="id_rol_sistema" runat="server" Enabled="false" Text='<%# Eval("id_rol_sistema") %>' />
+                                <asp:Label ID="id_usuario_rol" runat="server" Enabled="false" Text='<%# Eval("id_usuario_rol") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Nombre">
+                        <asp:TemplateField HeaderText="Usuario">
+                            <ItemTemplate>
+                                <asp:Label ID="login" runat="server" Enabled="false" Text='<%# Eval("login") %>' />
+                                <asp:HiddenField ID="hdfUsuarioID" runat="server" Value='<%# Eval("id_usuario") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Rol">
                             <ItemTemplate>
                                 <asp:Label ID="nombre" runat="server" Enabled="false" Text='<%# Eval("nombre") %>' />
+                                <asp:HiddenField ID="hdfRolID" runat="server" Value='<%# Eval("id_rol") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:ButtonField CommandName="editar"
@@ -60,16 +65,24 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeAdd" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="H1">Agregar Rol</h3>
+                        <h3 id="H1">Agregar Usuario-Rol</h3>
                     </div>
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
                                 <div class="row">
-                                        <div class="form-group">
-                                        <label class="col-xs-4 control-label">Nombre: </label>
+                                   <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Usuario: </label>
                                         <div class="col-xs-6">
-                                            <asp:TextBox ID="txtNombre" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                            <asp:DropDownList ID="ddlUsuario" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Rol: </label>
+                                        <div class="col-xs-6">
+                                            <asp:DropDownList ID="ddlRol"  runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
                                         </div>
                                     </div>                                          
                                 </div>
@@ -93,20 +106,28 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeEdit" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="H2">Editar Rol</h3>
+                        <h3 id="H2">Editar Usuario-Rol</h3>
                     </div>
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
-                                <div class="row">
-                                        <div class="form-group">
-                                            <asp:HiddenField ID="hdfRolSistemaID" runat="server" />
-                                        <label class="col-xs-4 control-label">Nombre: </label>
+                                 <div class="row">
+                                   <asp:HiddenField runat="server" ID="hdfUsuarioRolIDEDit" />
+                                   <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Usuario: </label>
                                         <div class="col-xs-6">
-                                            <asp:TextBox ID="txtNombreEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                            <asp:DropDownList ID="ddlUsuarioEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
                                         </div>
                                     </div>                                          
                                 </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Rol: </label>
+                                        <div class="col-xs-6">
+                                            <asp:DropDownList ID="ddlRolEdit"  runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>                                          
                             </div>
                             <div class="modal-footer">
                                 <asp:Label ID="Label1" Visible="false" runat="server"></asp:Label>
@@ -127,13 +148,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeDelete" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="delModalLabel">Eliminar Rol de Sistema</h3>
+                        <h3 id="delModalLabel">Eliminar Usuarios</h3>
                     </div>
                     <asp:UpdatePanel ID="upDel" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
                                 ¿Seguro desea eliminar este registro?
-                                <asp:HiddenField ID="hdfRolSistemaIDDel" runat="server" />
+                                <asp:HiddenField runat="server" ID="hdfUsusarioRolDel" />
                                                     
                             </div>
                             <div class="modal-footer">
@@ -176,7 +197,7 @@
     <!-- Fin Mensaje Modal-->
     <script src="../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
     <script src="../Scripts/bootstrap.js" type="text/javascript"></script>    
-    <script type="text/javascript">        
+    <script type="text/javascript">
         function MostrarMsjModal(message, title, ccsclas) {
             var vIcoModal = document.getElementById("icoModal");
             vIcoModal.className = ccsclas;
@@ -190,3 +211,5 @@
   </div>
 </body>
 </html>
+
+
