@@ -1,16 +1,16 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="source_Default" %>
 
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head runat="server">
-    <title></title>
+    <title>SGSST</title> 
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    
-    </div>
+       
+    <form id="form1" runat="server"> 
+        <asp:Login ID="Login1" runat="server"></asp:Login>
     </form>
+
 </body>
 </html>
+
