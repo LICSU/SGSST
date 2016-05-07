@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class source_Empresa : System.Web.UI.Page
+public partial class source_Departamento : System.Web.UI.Page
 {
     SqlConnection cnBDCentral = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionBDCentral"].ConnectionString);
     string sqlQuery = "", Err = "";
@@ -18,32 +18,20 @@ public partial class source_Empresa : System.Web.UI.Page
         if (!IsPostBack)
         {
             BindGridView();
-            CargarListas();
         }
-    }
-    protected void CargarListas()
-    {
-        sqlQuery = "SELECT id_codigo_ciiu as VAL, nombre as TXT FROM Codigo_ciiu";
-        Utilidades.CargarListado(ref ddlCodigo, sqlQuery, cnBDCentral, ref Err, true);
-        Utilidades.CargarListado(ref ddlCodigoEdit, sqlQuery, cnBDCentral, ref Err, true);
     }
     protected void BindGridView()
     {
         try
         {
             cnBDCentral.Open();
-            sqlQuery = "SELECT empresa.id_empresa as id_empresa, " +
-                       " empresa.nombre as nombre, " +
-                       " codigo_ciiu.nombre as codigo_ciiu, " +
-                       " codigo_ciiu.id_codigo_ciiu as id_codigo_ciiu " +
-                       " FROM codigo_ciiu INNER JOIN " +
-                       " empresa ON codigo_ciiu.id_codigo_ciiu = empresa.id_codigo_ciiu";
+            sqlQuery = "SELECT id_departamento, nombre FROM Departamento";
             SqlDataAdapter sbAdapter = new SqlDataAdapter(sqlQuery, cnBDCentral);
             DataSet ds = new DataSet();
             sbAdapter.Fill(ds);
             DataTable dt = ds.Tables[0];
             string[] TablaID = new string[1];
-            TablaID[0] = "id_empresa";
+            TablaID[0] = "id_departamento";
             GridView1.DataKeyNames = TablaID;
             GridView1.DataSource = dt;
             GridView1.DataBind();
@@ -55,7 +43,6 @@ public partial class source_Empresa : System.Web.UI.Page
             MostrarMsjModal(sq.Message, "ERR");
         }
     }
-
     private void MostrarMsjModal(string msj, string tipo)
     {
         string sTitulo = "Información";
@@ -77,15 +64,23 @@ public partial class source_Empresa : System.Web.UI.Page
         }
         ScriptManager.RegisterStartupScript(this, GetType(), "MostrarMsjModal", "MostrarMsjModal('" + msj.Replace("'", "").Replace("\r\n", " ") + "','" + sTitulo + "','" + sCcsClase + "');", true);
     }
+
+    protected void btnAgregar_Click(object sender, EventArgs e)
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        sb.Append(@"<script type='text/javascript'>");
+        sb.Append("$('#addModal').modal({ show: true });");
+        sb.Append(@"</script>");
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddModalScript", sb.ToString(), false); 
+    }
     protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow gvrow = GridView1.Rows[index];
         if (e.CommandName.Equals("editar"))
         {
-            hdfEmpresaID.Value = (gvrow.FindControl("id_empresa") as Label).Text;
+            hdfDepartamentoID.Value = (gvrow.FindControl("id_departamento") as Label).Text;
             txtNombreEdit.Text = (gvrow.FindControl("nombre") as Label).Text;
-            ddlCodigoEdit.SelectedValue = (gvrow.FindControl("id_codigo_ciiu") as HiddenField).Value;
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#editModal').modal({ show: true });");
@@ -94,7 +89,7 @@ public partial class source_Empresa : System.Web.UI.Page
         }
         if (e.CommandName.Equals("eliminar"))
         {
-            hdfEmpresaIDDel.Value = (gvrow.FindControl("id_empresa") as Label).Text;
+            hdfDepartamentoIDDel.Value = (gvrow.FindControl("id_departamento") as Label).Text;
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#deleteModal').modal({ show: true });");
@@ -109,21 +104,13 @@ public partial class source_Empresa : System.Web.UI.Page
         GridView1.PageIndex = e.NewPageIndex;
         BindGridView();
     }
-    protected void btnAgregar_Click(object sender, EventArgs e)
-    {
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.Append(@"<script type='text/javascript'>");
-        sb.Append("$('#addModal').modal({ show: true });");
-        sb.Append(@"</script>");
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddModalScript", sb.ToString(), false); 
-    }
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        if (txtNombre.Text != "" && ddlCodigo.SelectedValue != "")
+        if (txtNombre.Text != "")
         {
             Err = "";
-            sqlQuery = "INSERT INTO Empresa (nombre, id_codigo_ciiu) " +
-                       " VALUES ('" + txtNombre.Text + "', " + ddlCodigo.SelectedValue + ")";
+            sqlQuery = "INSERT INTO Departamento (nombre) " +
+                       " VALUES ('" + txtNombre.Text + "')";
             Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, true);
             if (Err == "")
             {
@@ -148,12 +135,11 @@ public partial class source_Empresa : System.Web.UI.Page
     }
     protected void btnEditar_Click(object sender, EventArgs e)
     {
-        if (txtNombreEdit.Text != "" && ddlCodigoEdit.SelectedValue != "")
+        if (txtNombreEdit.Text != "")
         {
             Err = "";
-            sqlQuery = "UPDATE Empresa SET nombre = '" + txtNombreEdit.Text + "'," +
-                        " id_codigo_ciiu = " + ddlCodigoEdit.SelectedValue + " " +
-                       " WHERE id_empresa = " + hdfEmpresaID.Value;
+            sqlQuery = "UPDATE Departamento SET nombre = '" + txtNombreEdit.Text + "'" +
+                       " WHERE id_departamento = " + hdfDepartamentoID.Value;
             Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, false);
             if (Err == "")
             {
@@ -168,7 +154,7 @@ public partial class source_Empresa : System.Web.UI.Page
             }
             else
             {
-                MostrarMsjModal("Error al modificar el registro " + Err, "ERR");
+                MostrarMsjModal("Error al modificar el registro "+Err, "ERR");
             }
         }
         else
@@ -178,7 +164,7 @@ public partial class source_Empresa : System.Web.UI.Page
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
-        sqlQuery = "DELETE FROM Empresa WHERE id_empresa = " + hdfEmpresaIDDel.Value;
+        sqlQuery = "DELETE FROM Departamento WHERE id_departamento = " + hdfDepartamentoIDDel.Value;
         Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, false);
         if (Err == "")
         {

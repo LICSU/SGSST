@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Empresa.aspx.cs" Inherits="source_Empresa" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Municipio.aspx.cs" Inherits="source_Municipio" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../Content/bootstrap.css" />
     <link rel="stylesheet" href="../Content/bootstrap-theme.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Empresa</title>
+    <title>Municipio</title>
 </head>
 <body>
     <div class="pager">
@@ -14,37 +14,37 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
         <asp:UpdatePanel ID="upRolSistema" runat="server">
             <ContentTemplate>
-                <div class="row"><h1 class="text-info text-center">Empresa</h1></div>
+                <div class="row"><h1 class="text-info text-center">Municipio</h1></div>
                 <div class="row">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">
-                        <asp:Button Text="Agregar Empresa" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
+                        <asp:Button Text="Agregar Municipio" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
                     </div>
                 </div>
                 <br />
                 <asp:GridView ID="GridView1" CssClass="footable" 
                               runat="server" Width="90%" HorizontalAlign="Center"
                               OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false" AllowPaging="true"
-                              DataKeyNames="id_empresa"  PageSize="20"
+                              DataKeyNames="id_municipio"  PageSize="20"
                               onpageindexchanging="GridView1_PageIndexChanging"
-                              EmptyDataText="No existen Empresas Agregadas" >
+                              EmptyDataText="No existen Municipios Agregados" >
                     <Columns>
                         <asp:TemplateField HeaderText="ID">
                             <ItemTemplate>
-                                <asp:Label ID="id_empresa" runat="server" Enabled="false" Text='<%# Eval("id_empresa") %>' />
+                                <asp:Label ID="id_municipio" runat="server" Enabled="false" Text='<%# Eval("id_municipio") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Empresa">
+                        <asp:TemplateField HeaderText="Municipio">
                             <ItemTemplate>
                                 <asp:Label ID="nombre" runat="server" Enabled="false" Text='<%# Eval("nombre") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>   
-                        <asp:TemplateField HeaderText="Codigo Ciiu">
+                        <asp:TemplateField HeaderText="Departamento">
                             <ItemTemplate>
-                                <asp:HiddenField runat="server" ID="id_codigo_ciiu" Visible="false" Value='<%# Eval("id_codigo_ciiu") %>' />
-                                <asp:Label ID="codigo_ciiu" runat="server" Enabled="false" Text='<%# Eval("codigo_ciiu") %>' />
+                                <asp:HiddenField runat="server" ID="id_departamento" Visible="false" Value='<%# Eval("id_departamento") %>' />
+                                <asp:Label ID="departamento" runat="server" Enabled="false" Text='<%# Eval("departamento") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>                      
                         <asp:ButtonField CommandName="editar"
@@ -65,14 +65,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeAdd" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="H1">Agregar Empresa</h3>
+                        <h3 id="H1">Agregar Municipio</h3>
                     </div>
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
                                 <div class="row">
                                    <div class="form-group col-lg-12">
-                                        <label class="col-xs-4 control-label">Empresa: </label>
+                                        <label class="col-xs-4 control-label">Municipio: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtNombre" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
@@ -80,9 +80,9 @@
                                 </div>
                                 <div class="row">
                                    <div class="form-group col-lg-12">
-                                        <label class="col-xs-4 control-label">Código Ciiu: </label>
+                                        <label class="col-xs-4 control-label">Departamento: </label>
                                         <div class="col-xs-6">
-                                            <asp:DropDownList ID="ddlCodigo" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
+                                            <asp:DropDownList ID="ddlDepartamento" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
                                         </div>
                                     </div>                                          
                                 </div>
@@ -106,15 +106,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeEdit" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="H2">Editar Empresa</h3>
+                        <h3 id="H2">Editar Municipio</h3>
                     </div>
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="form-group col-lg-12">
-                                        <asp:HiddenField ID="hdfEmpresaID" runat="server" />
-                                        <label class="col-xs-4 control-label">Empresa: </label>
+                                        <asp:HiddenField ID="hdfMunicipioID" runat="server" />
+                                        <label class="col-xs-4 control-label">Municipio: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtNombreEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
@@ -122,9 +122,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-12">
-                                        <label class="col-xs-4 control-label">Código Ciiu: </label>
+                                        <label class="col-xs-4 control-label">Departamento: </label>
                                         <div class="col-xs-6">
-                                            <asp:DropDownList ID="ddlCodigoEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
+                                            <asp:DropDownList ID="ddlDepartamentoEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
                                         </div>
                                     </div>                                          
                                 </div>                                          
@@ -148,13 +148,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeDelete" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="delModalLabel">Eliminar Empresa</h3>
+                        <h3 id="delModalLabel">Eliminar Usuarios</h3>
                     </div>
                     <asp:UpdatePanel ID="upDel" runat="server">
                         <ContentTemplate>
                             <div class="modal-body">
                                 ¿Seguro desea eliminar este registro?
-                                <asp:HiddenField ID="hdfEmpresaIDDel" runat="server" />
+                                <asp:HiddenField ID="hdfMunicipioIDDel" runat="server" />
                                                     
                             </div>
                             <div class="modal-footer">
@@ -211,5 +211,4 @@
   </div>
 </body>
 </html>
-
 
