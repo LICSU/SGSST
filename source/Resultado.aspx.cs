@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class source_Trabajador : System.Web.UI.Page
+public partial class source_Resultado : System.Web.UI.Page
 {
     SqlConnection cnBDCentral = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionBDCentral"].ConnectionString);
     string sqlQuery = "", Err = "";
@@ -18,6 +18,9 @@ public partial class source_Trabajador : System.Web.UI.Page
         if (!IsPostBack)
         {
             BindGridView();
+            sqlQuery = "SELECT id_usuario as VAL, login as TXT FROM Usuario";
+            Utilidades.CargarListado(ref ddlUsuario, sqlQuery, cnBDCentral, ref Err, true);
+            Utilidades.CargarListado(ref ddlUsuarioEdit, sqlQuery, cnBDCentral, ref Err, true);
         }
     }
 
@@ -26,13 +29,13 @@ public partial class source_Trabajador : System.Web.UI.Page
         try
         {
             cnBDCentral.Open();
-            sqlQuery = "SELECT * FROM Trabajador";
+            sqlQuery = "SELECT id_resultado, id_usuario FROM Resultado";
             SqlDataAdapter sbAdapter = new SqlDataAdapter(sqlQuery, cnBDCentral);
             DataSet ds = new DataSet();
             sbAdapter.Fill(ds);
             DataTable dt = ds.Tables[0];
             string[] TablaID = new string[1];
-            TablaID[0] = "id_trabajador";
+            TablaID[0] = "id_resultado";
             GridView1.DataKeyNames = TablaID;
             GridView1.DataSource = dt;
             GridView1.DataBind();
@@ -44,6 +47,7 @@ public partial class source_Trabajador : System.Web.UI.Page
             MostrarMsjModal(sq.Message, "ERR");
         }
     }
+
     private void MostrarMsjModal(string msj, string tipo)
     {
         string sTitulo = "Información";
@@ -72,81 +76,25 @@ public partial class source_Trabajador : System.Web.UI.Page
         sb.Append(@"<script type='text/javascript'>");
         sb.Append("$('#addModal').modal({ show: true });");
         sb.Append(@"</script>");
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddModalScript", sb.ToString(), false);
-    }
-    protected void cargarDatos(string ID)
-    {
-        sqlQuery = "SELECT trabajador.cedula as cedula, "+
-                    "(trabajador.primer_nombre+' '+trabajador.segundo_nombre+' '+trabajador.primer_apellido+' '+trabajador.segundo_apellido) as nombres, "+
-                    "trabajador.email as email, "+
-                    "CONVERT(VARCHAR(11),trabajador.fecha_nacimiento,103) as fechaN, "+
-                    "trabajador.edo_civil as edoC, "+
-                    "trabajador.sexo as sexo, "+
-                    "trabajador.telefono_casa as telefono, "+
-                    "trabajador.telefono_movil as celular, "+
-                    "trabajador.eps as eps, "+
-                    "trabajador.direccion as direccion, "+
-                    "municipio.nombre as municipio, "+
-                    "area.nombre AS area, "+
-                    "Usuario.[login] as login1 "+
-                    "FROM trabajador INNER JOIN "+
-                    "area ON trabajador.id_area = area.id_area INNER JOIN "+
-                    "Usuario ON trabajador.id_usuario = Usuario.id_usuario INNER JOIN "+
-                    "municipio ON trabajador.id_municipio = municipio.id_municipio "+
-                    "WHERE trabajador.id_trabajador = "+ID;
-        SqlCommand cmd = new SqlCommand(sqlQuery, cnBDCentral);
-        SqlDataReader reader;
-        try
-        {
-            cnBDCentral.Open();
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                txtCedula.Text = reader["cedula"].ToString();
-                txtNombres.Text = reader["nombres"].ToString();
-                txtEmail.Text = reader["email"].ToString();
-                txtFechaN.Text = reader["fechaN"].ToString();
-                txtEdoCivil.Text = reader["edoC"].ToString();
-                txtSexo.Text = reader["sexo"].ToString();
-                txtTelefono.Text = reader["telefono"].ToString();
-                txtCelular.Text = reader["celular"].ToString();
-                txtEps.Text = reader["eps"].ToString();
-                txtDireccion.Text = reader["direccion"].ToString();
-                txtMunicipio.Text = reader["municipio"].ToString();
-                txtArea.Text = reader["area"].ToString();
-                txtUsuario.Text = reader["login1"].ToString();
-            }
-            reader.Close();
-            cnBDCentral.Close();
-        }
-        catch (SqlException sq)
-        {
-            cnBDCentral.Close();
-            MostrarMsjModal("Error al cargar los datos: "+sq.Message, "ERR");
-        }
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddModalScript", sb.ToString(), false); 
     }
     protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow gvrow = GridView1.Rows[index];
-        if (e.CommandName.Equals("ver"))
+        if (e.CommandName.Equals("editar"))
         {
-            string TrabajadorID = (gvrow.FindControl("id_trabajador") as HiddenField).Value;
-            cargarDatos(TrabajadorID);
+            hdfResultadoID.Value = (gvrow.FindControl("id_resultado") as Label).Text;
+            ddlUsuarioEdit.SelectedValue = (gvrow.FindControl("id_usuario") as Label).Text;
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
-            sb.Append("$('#viewModal').modal({ show: true });");
+            sb.Append("$('#editModal').modal({ show: true });");
             sb.Append(@"</script>");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalScript", sb.ToString(), false);
         }
-        if (e.CommandName.Equals("editar"))
-        {
-            string TrabajadorID = (gvrow.FindControl("id_trabajador") as HiddenField).Value;
-            Response.Redirect("EditarTrabajador.aspx?id="+TrabajadorID);
-        }
         if (e.CommandName.Equals("eliminar"))
         {
-            hdfTrabajadorIDDel.Value = (gvrow.FindControl("id_trabajador") as Label).Text;
+            hdfResultadoIDDel.Value = (gvrow.FindControl("id_resultado") as Label).Text;
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
             sb.Append("$('#deleteModal').modal({ show: true });");
@@ -163,16 +111,70 @@ public partial class source_Trabajador : System.Web.UI.Page
     }
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        Response.Redirect("AgregarTrabajador.aspx");
+        if (ddlUsuario.SelectedValue != "")
+        {
+            Err = "";
+            sqlQuery = "INSERT INTO Resultado (id_usuario) " +
+                       " VALUES (" + ddlUsuario.SelectedValue + ")";
+            Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, true);
+            if (Err == "")
+            {
+                //Se ejecuto sin problema
+                MostrarMsjModal("Registrado agregado con Éxito", "EXI");
+                BindGridView();
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("document.getElementById('closeAdd').click();");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
+            }
+            else
+            {
+                MostrarMsjModal("Error al insertar el registro", "ERR");
+            }
+        }
+        else
+        {
+            MostrarMsjModal("Todos los campos son necesarios", "ERR");
+        }
+    }
+    protected void btnEditar_Click(object sender, EventArgs e)
+    {
+        if (ddlUsuarioEdit.SelectedValue != "")
+        {
+            Err = "";
+            sqlQuery = "UPDATE Resultado SET id_usuario = " + ddlUsuarioEdit.SelectedValue+ "" +
+                       " WHERE id_resultado = " + hdfResultadoID.Value;
+            Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, false);
+            if (Err == "")
+            {
+                //Se ejecuto sin problema
+                MostrarMsjModal("Registrado modificado con Éxito", "EXI");
+                BindGridView();
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("document.getElementById('closeEdit').click();");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditHideModalScript", sb.ToString(), false);
+            }
+            else
+            {
+                MostrarMsjModal("Error al modificar el registro " + Err, "ERR");
+            }
+        }
+        else
+        {
+            MostrarMsjModal("Todos los campos son necesarios", "ERR");
+        }
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
-        sqlQuery = "DELETE FROM Trabajador WHERE id_trabajador = " + hdfTrabajadorIDDel.Value;
+        sqlQuery = "DELETE FROM Resultado WHERE id_resultado = " + hdfResultadoIDDel.Value;
         Utilidades.EjeSQL(sqlQuery, cnBDCentral, ref Err, false);
         if (Err == "")
         {
             //Se ejecuto sin problema
-            MostrarMsjModal("Registrado Eliminado con Éxito", "EXI");
+            MostrarMsjModal("Registro Eliminado con Éxito", "EXI");
             BindGridView();
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append(@"<script type='text/javascript'>");
@@ -185,5 +187,4 @@ public partial class source_Trabajador : System.Web.UI.Page
             MostrarMsjModal("Error al realizar el Update: " + Err, "ERR");
         }
     }
-
 }

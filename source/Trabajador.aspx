@@ -63,6 +63,135 @@
                 </asp:GridView>
             </ContentTemplate>
         </asp:UpdatePanel>
+        <!-- View Modal Starts here -->
+        <asp:DataList ID="DataList1" runat="server"></asp:DataList>
+        <div id="viewModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="closeAdd" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="H1">Ver Trabajador</h3>
+                    </div>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <div class="modal-body">
+                                <div class="row">
+                                   <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Nombres: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtNombres" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Cédula: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtCedula" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Email: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtEmail" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Fecha de Nacimiento: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtFechaN" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Estado Civil: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtEdoCivil" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Sexo: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtSexo" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Teléfono: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtTelefono" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Celular: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtCelular" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">EPS: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtEps" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Dirección: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtDireccion" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Área: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtArea" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Municipio: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtMunicipio" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Usuario: </label>
+                                        <div class="col-xs-6">
+                                            <asp:TextBox ID="txtUsuario" Enabled="false" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Label ID="Label3" Visible="false" runat="server"></asp:Label>
+                                <button class="btn-default" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <!-- View Modal Ends here -->
         <!-- Delete Record Modal Starts here-->
         <div id="deleteModal"  class="modal fade">
             <div class="modal-dialog">

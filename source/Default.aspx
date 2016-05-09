@@ -11,8 +11,7 @@
     <form id="form1" runat="server"> 
         <asp:Login ID="Login1" runat="server"></asp:Login>
 =======
-    <form id="form1" runat="server">
-    <div>
+        <div>
         <asp:Label ID="lbl1" runat="server" Text=""></asp:Label>
     </div>
 >>>>>>> 0f9ddd4b8ae8f366a20c869e77fca79f2b32df45
