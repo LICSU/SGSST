@@ -19,7 +19,7 @@
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">
-                        <asp:Button Text="Agregar Usuario-Rol" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
+                        <asp:Button Text="Agregar Código Ciiu" ID="btnAgregar" runat="server" OnClick="btnAgregar_Click" CssClass="btn-default" />
                     </div>
                 </div>
                 <br />

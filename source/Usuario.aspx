@@ -38,12 +38,18 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Login">
                             <ItemTemplate>
-                                <asp:Label ID="login" runat="server" Enabled="false" Text='<%# Eval("login") %>' />
+                                <asp:Label ID="login" runat="server" Enabled="false" Text='<%# Eval("login1") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Clave">
                             <ItemTemplate>
                                 <asp:Label ID="clave" runat="server" Enabled="false" Text='<%# Eval("clave") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Rol">
+                            <ItemTemplate>
+                                <asp:HiddenField ID="rol_id" Visible="false" runat="server" Value='<%# Eval("rol_id") %>' />
+                                <asp:Label ID="rol" runat="server" Enabled="false" Text='<%# Eval("rol") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:ButtonField CommandName="editar"
@@ -82,6 +88,14 @@
                                         <label class="col-xs-4 control-label">Clave: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtClave" TextMode="Password" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
+                                        </div>
+                                    </div>                                          
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Rol: </label>
+                                        <div class="col-xs-6">
+                                            <asp:DropDownList ID="ddlRol" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
                                         </div>
                                     </div>                                          
                                 </div>
@@ -125,7 +139,15 @@
                                             <asp:TextBox ID="txtClaveEdit" TextMode="Password" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                     </div> 
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label class="col-xs-4 control-label">Rol: </label>
+                                        <div class="col-xs-6">
+                                            <asp:DropDownList ID="ddlRolEdit" runat="server" ClientIDMode="Static" CssClass="form-control"></asp:DropDownList>                                                                
+                                        </div>
                                     </div>                                          
+                                </div>                                          
                                 </div>                                         
                                 </div>
                             <div class="modal-footer">

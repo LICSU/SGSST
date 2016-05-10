@@ -133,7 +133,7 @@
                         </div>
                         <div class="">
                             <div class="col-lg-6">
-                                <asp:TextBox runat="server" ID="txtEps" CssClass="form-control" placeholder="Casa"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtEps" CssClass="form-control" placeholder="EPS"></asp:TextBox>
                             </div>
                             <div class="col-lg-6">
                                 <asp:FileUpload runat="server" ID="fuFoto"/>

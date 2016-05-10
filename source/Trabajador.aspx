@@ -24,6 +24,7 @@
                     </div>
                 </div>
                 <br />
+                <br />
                 <asp:GridView ID="GridView1" CssClass="footable" 
                               runat="server" Width="90%" HorizontalAlign="Center"
                               OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false" AllowPaging="true"

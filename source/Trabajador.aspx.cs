@@ -68,11 +68,7 @@ public partial class source_Trabajador : System.Web.UI.Page
 
     protected void btnAgregar_Click(object sender, EventArgs e)
     {
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.Append(@"<script type='text/javascript'>");
-        sb.Append("$('#addModal').modal({ show: true });");
-        sb.Append(@"</script>");
-        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AddModalScript", sb.ToString(), false);
+        Response.Redirect("AgregarTrabajador.aspx");
     }
     protected void cargarDatos(string ID)
     {
