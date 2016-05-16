@@ -10,14 +10,13 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 
-
-public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
+public partial class source_sistema_MapaRiesgos_index_MapaRiesgo : System.Web.UI.Page
 {
     #region variable
     Base_Datos objBase_Datos_SGSST = new Base_Datos("sgsst");
     Base_Datos objBase_Datos_Central = new Base_Datos("central");
     string strQuery = "", strError = "";
-    string strRuta = "~//source//archivos//planes//";
+    string strRuta = "~//source//archivos//mapas//";
     Modal objModal = new Modal();
     ExportFiles objExportFiles = new ExportFiles();
     #endregion
@@ -27,9 +26,9 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
         Page.Form.Attributes.Add("enctype", "multipart/form-data");
         if (!IsPostBack)
         {
-            Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1", objBase_Datos_SGSST.getConector(), "id_plan_mapa",GridView1,this);
+            Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
             CargarListas();
-        }        
+        }
     }
     protected void CargarListas()
     {
@@ -82,7 +81,7 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
         {
             DateTime fechaActual = DateTime.Now;
             string extension = "." + flpArchivo.FileName.Substring(flpArchivo.FileName.LastIndexOf('.') + 1).ToLower();
-            string nombreArchivo = ddlEmpresa.SelectedValue + txtNombre.Text + fechaActual.ToString("dd-MM-yyy")+ extension;
+            string nombreArchivo = ddlEmpresa.SelectedValue + txtNombre.Text + fechaActual.ToString("dd-MM-yyy") + extension;
 
 
             flpArchivo.SaveAs(Server.MapPath(strRuta + nombreArchivo));
@@ -91,7 +90,7 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
 
             strQuery = "INSERT INTO plan_mapa (nombre,ruta,fecha_creacion,id_empresa,tipo) " +
                        " VALUES ('" + txtNombre.Text + "', '" + nombreArchivo + "','"
-                       + TextFechaCreacion.Text + "'," + ddlEmpresa.SelectedValue + ",1)";
+                       + TextFechaCreacion.Text + "'," + ddlEmpresa.SelectedValue + ",2)";
 
             Base_Datos.EjeSQL(strQuery, objBase_Datos_SGSST.getConector(), ref strError, true);
 
@@ -100,33 +99,33 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
             {
                 //Se ejecuto sin problema
                 objModal.MostrarMsjModal("Registrado agregado con Éxito", "EXI", this);
-                Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo=1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+                Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
                 objModal.registrarScriptAcciones("closeAdd", "EditHideModalScript", this);
             }
             else
             {
-                objModal.MostrarMsjModal("Error al insertar el registro", "ERR",this);
+                objModal.MostrarMsjModal("Error al insertar el registro", "ERR", this);
             }
         }
     }
     protected void btnEditar_Click(object sender, EventArgs e)
     {
         if (!flpArchivoEdit.HasFile) { objModal.MostrarMsjModal("Debe elegir un archivo", "ERR", this); }
-        else if(txtNombreEdit.Text == "") { objModal.MostrarMsjModal("Ingresar el campo nombre", "ERR", this); }
+        else if (txtNombreEdit.Text == "") { objModal.MostrarMsjModal("Ingresar el campo nombre", "ERR", this); }
         else if (txtFechaEdit.Text == "") { objModal.MostrarMsjModal("Ingresar el campo Fecha", "ERR", this); }
         else if (ddlEmpresaEdit.SelectedValue == "") { objModal.MostrarMsjModal("Seleccionar el campo empresa", "ERR", this); }
         else
         {
             DateTime fechaActual = DateTime.Now;
-            string extension = "."+flpArchivo.FileName.Substring(flpArchivo.FileName.LastIndexOf('.') + 1).ToLower();
+            string extension = "." + flpArchivo.FileName.Substring(flpArchivo.FileName.LastIndexOf('.') + 1).ToLower();
             string nombreArchivo = ddlEmpresa.SelectedValue + txtNombre.Text + fechaActual.ToString("dd-MM-yyy") + extension;
 
             flpArchivo.SaveAs(Server.MapPath(strRuta + nombreArchivo));
             strError = "";
-            strQuery = "UPDATE plan_mapa SET "+
+            strQuery = "UPDATE plan_mapa SET " +
                         " nombre = '" + txtNombreEdit.Text + "'," +
-                        " ruta = '"+ nombreArchivo + "',"+
-                        " fecha_creacion = '"+ txtFechaEdit.Text + "'," +
+                        " ruta = '" + nombreArchivo + "'," +
+                        " fecha_creacion = '" + txtFechaEdit.Text + "'," +
                         " id_empresa = " + ddlEmpresaEdit.SelectedValue + " " +
                         " WHERE id_plan_mapa = " + hdfPlanID.Value;
 
@@ -135,13 +134,13 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
             if (strError == "")
             {
                 //Se ejecuto sin problema
-                objModal.MostrarMsjModal("Registrado modificado con Éxito", "EXI",this);
-                Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo=1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+                objModal.MostrarMsjModal("Registrado modificado con Éxito", "EXI", this);
+                Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
                 objModal.registrarScriptAcciones("closeEdit", "CloseHideModalScript", this);
             }
             else
             {
-                objModal.MostrarMsjModal("Error al modificar el registro " + strError, "ERR",this);
+                objModal.MostrarMsjModal("Error al modificar el registro " + strError, "ERR", this);
             }
         }
     }
@@ -152,8 +151,8 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
         if (strError == "")
         {
             //Se ejecuto sin problema
-            objModal.MostrarMsjModal("Registrado Eliminado con Éxito", "EXI",this);
-            Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo=1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+            objModal.MostrarMsjModal("Registrado Eliminado con Éxito", "EXI", this);
+            Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
             objModal.registrarScriptAcciones("closeDelete", "DeleteHideModalScript", this);
         }
         else
@@ -161,13 +160,13 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
             objModal.MostrarMsjModal("Error al realizar el Update: " + strError, "ERR", this);
         }
     }
-   
+
     protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         GridView1.EditIndex = -1;
         GridView1.SelectedIndex = -1;
         GridView1.PageIndex = e.NewPageIndex;
-        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
 
     }
 
@@ -177,34 +176,34 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
     }
 
     protected void btnExportWord_Click(object sender, EventArgs e)
-    {        
-        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+    {
+        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
         GridView1.Columns[4].Visible = false;
         GridView1.Columns[5].Visible = false;
         GridView1.Columns[6].Visible = false;
         GridView1.Columns[7].Visible = false;
 
-        objExportFiles.ExportarWord(this, GridView1,"Plan");
+        objExportFiles.ExportarWord(this, GridView1, "Mapa");
     }
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
-        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
         GridView1.Columns[4].Visible = false;
         GridView1.Columns[5].Visible = false;
         GridView1.Columns[6].Visible = false;
         GridView1.Columns[7].Visible = false;
 
-        objExportFiles.ExportarExcel(this, GridView1, "Plan");
+        objExportFiles.ExportarExcel(this, GridView1, "Mapa");
     }
     protected void btnExportPDF_Click(object sender, EventArgs e)
-    {        
-        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+    {
+        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
 
         GridView1.Columns[4].Visible = false;
         GridView1.Columns[5].Visible = false;
         GridView1.Columns[6].Visible = false;
         GridView1.Columns[7].Visible = false;
-        objExportFiles.ExportarPdf(this, GridView1, "Plan");
+        objExportFiles.ExportarPdf(this, GridView1, "Mapa");
 
     }
 
@@ -219,7 +218,7 @@ public partial class source_sistema_Plan_index_plan : System.Web.UI.Page
 
     protected void buscarPlan(object sender, EventArgs e)
     {
-        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 1 AND nombre like '%"+ searchPlan.Text+"%'", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
+        Base_Datos.CrearMatrizPrincipal("SELECT * FROM plan_mapa WHERE tipo = 2 AND nombre like '%" + searchPlan.Text + "%'", objBase_Datos_SGSST.getConector(), "id_plan_mapa", GridView1, this);
     }
 
 
