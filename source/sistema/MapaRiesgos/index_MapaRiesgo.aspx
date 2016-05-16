@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index_plan.aspx.cs" Inherits="source_sistema_Plan_index_plan" EnableEventValidation="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index_MapaRiesgo.aspx.cs" Inherits="source_sistema_MapaRiesgos_index_MapaRiesgo" %>
+
 <%@ Register Src="~/source/WebUserControl/ucHeader.ascx" TagPrefix="uch" TagName="ucHeader" %>
 <%@ Register Src="~/source/WebUserControl/ucFooter.ascx" TagPrefix="ucf" TagName="ucFooter" %>
 <%@ Register Src="~/source/WebUserControl/ucMsjModal.ascx" TagPrefix="ucm" TagName="ucMsjModal" %>
@@ -10,7 +11,7 @@
         <asp:UpdatePanel ID="upRolSistema" runat="server">
             <ContentTemplate>
             
-                <div class="row"><h1 class="text-info text-center">Planes</h1></div>
+                <div class="row"><h1 class="text-info text-center">Mapas</h1></div>
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
@@ -28,11 +29,11 @@
                 >
                 
                 <Columns>
-                    <asp:TemplateField HeaderText="Id Plan" visible="false">
+                    <asp:TemplateField HeaderText="Id Mapa" visible="false">
                         <ItemTemplate><asp:Label ID="id_plan_mapa" runat="server" Enabled="false" Text='<%# Eval("id_plan_mapa") %>' /></ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Nombre del Plan">
+                    <asp:TemplateField HeaderText="Nombre del Mapa">
                         <ItemTemplate><asp:Label ID="nombre" runat="server" Enabled="false" Text='<%# Eval("nombre") %>' /></ItemTemplate>
                     </asp:TemplateField>   
                     
@@ -51,7 +52,7 @@
                             </ItemTemplate>
                     </asp:TemplateField>  
 
-                    <asp:TemplateField HeaderText="Descargar Plan" >
+                    <asp:TemplateField HeaderText="Descargar Mapa" >
                         <ItemTemplate>
                             <asp:HyperLink runat="server" NavigateUrl='<%# "~//source//archivos//planes//"+Eval("ruta") %>' Target="_blank">Descargar</asp:HyperLink>
                         </ItemTemplate>
@@ -88,7 +89,7 @@
                 
                     <div class="modal-header">
                         <button id="closeAdd" type="button" class="close" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                        <h3 id="H1">Agregar Plan</h3>
+                        <h3 id="H1">Agregar Mapa</h3>
                     </div>
                 
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -157,7 +158,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeEdit" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="H2">Editar Plan</h3>
+                        <h3 id="H2">Editar Mapa</h3>
                     </div>
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
@@ -225,7 +226,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="closeDelete" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="delModalLabel">Eliminar Plan</h3>
+                        <h3 id="delModalLabel">Eliminar Mapa</h3>
                     </div>
                     <asp:UpdatePanel ID="upDel" runat="server">
                         <ContentTemplate>

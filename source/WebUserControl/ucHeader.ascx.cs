@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class source_sistema_home : System.Web.UI.Page
+public partial class source_WebUserControl_ucHeader : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
