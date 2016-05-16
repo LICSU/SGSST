@@ -5,7 +5,7 @@
 <head id="Head1" runat="server">
     <link rel="stylesheet" href="../Content/bootstrap.css" />
     <link rel="stylesheet" href="../Content/bootstrap-theme.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Área</title>
 </head>
 <body>
@@ -59,6 +59,7 @@
                 </asp:GridView>
             </ContentTemplate>
         </asp:UpdatePanel>
+        
         <!-- Add Modal Starts here -->
         <div id="addModal" class="modal fade">
             <div class="modal-dialog">
@@ -171,7 +172,7 @@
         </div>
         <!--Delete Record Modal Ends here -->
         <!-- Msj Modal -->
-    <div class="modal fade" id="Msjmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="Msjmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -194,19 +195,21 @@
         </div> 
       </div>
     </div>
-    <!-- Fin Mensaje Modal-->
-    <script src="../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
-    <script src="../Scripts/bootstrap.js" type="text/javascript"></script>    
-    <script type="text/javascript">
-        function MostrarMsjModal(message, title, ccsclas) {
-            var vIcoModal = document.getElementById("icoModal");
-            vIcoModal.className = ccsclas;
-            $('#lblMsjTitle').html(title);
-            $('#lblMsjModal').html(message);
-            $('#Msjmodal').modal('show');
-            return true;
-        }
-    </script>
+        <!-- Fin Mensaje Modal-->
+    
+        <script src="../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+        <script src="../Scripts/bootstrap.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            function MostrarMsjModal(message, title, ccsclas)
+            {
+                var vIcoModal = document.getElementById("icoModal");
+                vIcoModal.className = ccsclas;
+                $('#lblMsjTitle').html(title);
+                $('#lblMsjModal').html(message);
+                $('#Msjmodal').modal('show');
+                return true;
+            }
+        </script>
     </form>
   </div>
 </body>

@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class source_EditarTrabajador : System.Web.UI.Page
 {
-    SqlConnection cnBDCentral = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionBDCentral"].ConnectionString);
+    SqlConnection cnBDCentral = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion_BD_Central"].ConnectionString);
     string sqlQuery = "", Err = "";
 
     protected void Page_Load(object sender, EventArgs e)
