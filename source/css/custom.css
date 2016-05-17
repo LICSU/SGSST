@@ -6,3 +6,8 @@
 th {
 	cursor:pointer;
 }
+
+td, th {
+    padding-right:50px !important;
+}
+
